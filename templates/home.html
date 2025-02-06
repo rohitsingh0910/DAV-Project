@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HireSmart - Smart Resume Scanner and Analyzer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        /* Global Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #2F80ED, #56CCF2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: white;
+            text-align: center;
+        }
+
+        /* Glassmorphic Container */
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 50px;
+            width: 90%;
+            max-width: 800px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            animation: fadeIn 1.5s ease-in-out;
+        }
+
+        /* Header Styling */
+        h1 {
+            font-size: 3rem;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 15px;
+        }
+
+        p {
+            font-size: 1.2rem;
+            font-weight: 300;
+            margin-bottom: 30px;
+            color: #f1f1f1;
+        }
+
+        /* Buttons Container */
+        .buttons-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        /* Button Styling */
+        .button {
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            border: none;
+            color: white;
+            padding: 15px 35px;
+            font-size: 1.2em;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+            text-transform: uppercase;
+            font-weight: 600;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .button:hover {
+            transform: scale(1.08);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .button-recruiter {
+            background: linear-gradient(45deg, #FF5722, #e64a19);
+        }
+
+        /* Animation */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.2rem;
+            }
+
+            p {
+                font-size: 1rem;
+            }
+
+            .buttons-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to <span style="color:#FFD700;">HireSmart</span></h1>
+        <p>Smart Resume Analysis & Career Insights</p>
+
+        <div class="buttons-container">
+            <button onclick="location.href='{{url_for("user_resume")}}'" class="button">For Users</button>
+            <button onclick="location.href='{{url_for("signup")}}'" class="button button-recruiter">For Recruiters</button>
+        </div>
+    </div>
+</body>
+</html>

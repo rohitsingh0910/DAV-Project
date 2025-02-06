@@ -1,0 +1,166 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analysis Results</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        th, td {
+            white-space: nowrap;
+        }
+
+        thead th {
+            position: sticky;
+            top: 0;
+            background: #343a40;
+            color: white;
+            z-index: 10;
+        }
+
+        body, html {
+            height: 100%;
+            margin: 0;
+        }
+
+        .full-height {
+            height: 100vh;
+        }
+
+        .detailed-row {
+            display: none;
+        }
+
+        .back-to-home-btn {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 999;
+        }
+    </style>
+</head>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<body class="bg-light">
+
+<!-- Flash Messages -->
+<div class="container mt-3">
+
+          <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+
+</div>
+
+<div class="full-height mt-3">
+    <div class="card shadow-lg p-4 h-100">
+        <h2 class="text-center text-success">Resume Analysis Results</h2>
+
+        <table class="table table-striped table-bordered mt-3">
+            <thead class="table-dark">
+                <tr>
+                    <th>Rank</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Total Score</th>
+                    <th>Details</th>
+                    <th>Save</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for result in results %}
+                <tr>
+                    <td><span class="badge bg-primary">{{ loop.index }}</span></td>
+                    <td>{{ result.name if result.name else 'Invalid Format' }}</td>
+                    <td>{{ result.emails if result.emails else 'Invalid Format' }}</td>
+                    <td>{{ result.phone_numbers if result.phone_numbers else 'Invalid Format' }}</td>
+                    <td>
+                        <strong class="text-{{ 'success' if result.total_score >= 60 else 'danger' }}">
+                            {{ result.total_score | round(2) }}%
+                        </strong>
+                    </td>
+                    <td><button class="btn btn-info btn-sm" onclick="toggleDetails({{ loop.index }})">Show Details</button></td>
+                    <td>
+                        <form action="/save_resume" method="POST" class="save-form">
+                            <input type="hidden" name="recruiter_name" value="{{ recruiter_name }}">
+                            <input type="hidden" name="candidate_name" value="{{ result.name }}">
+                            <input type="hidden" name="email" value="{{ result.emails }}">
+                            <input type="hidden" name="phone" value="{{ result.phone_numbers }}">
+                            <input type="hidden" name="skills" value="{{ result.skills | join(', ') }}">
+                            <input type="hidden" name="experience" value="{{ result.total_experience }}">
+                            <input type="hidden" name="qualification" value="{{ result.bachelor_degree | join(', ') }}">
+                            <input type="hidden" name="total_score" value="{{ result.total_score }}">
+                            <button type="submit" class="btn btn-success btn-sm save-resume-btn">Save Resume</button>
+                        </form>
+                    </td>
+                </tr>
+                <tr id="details-{{ loop.index }}" class="detailed-row">
+                    <td colspan="7">
+                        <div>
+                            <h5>Full Resume Data for {{ result.name if result.name else 'Invalid Format' }}</h5>
+                            <p><strong>Name:</strong> {{ result.name if result.name else 'Invalid Format' }}</p>
+                            <p><strong>Email:</strong> {{ result.emails if result.emails else 'Invalid Format' }}</p>
+                            <p><strong>Phone:</strong> {{ result.phone_numbers if result.phone_numbers else 'Invalid Format' }}</p>
+                            <p><strong>Total Score:</strong> {{ result.total_score | round(2) }}</p>
+                            <p><strong>Experience:</strong> {{ result.total_experience if result.total_experience else 'N/A' }}</p>
+                            <p><strong>Bachelor Degree:</strong> {{ ', '.join(result.bachelor_degree) if result.bachelor_degree else 'N/A' }}</p>
+                            <p><strong>Masters Degree:</strong> {{ ', '.join(result.masters_degree) if result.masters_degree else 'N/A' }}</p>
+                            <p><strong>Skills:</strong> {{ ', '.join(result.skills) if result.skills else 'N/A' }}</p>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Back to Home Button -->
+<div class="back-to-home-btn">
+    <a href="/" class="btn btn-primary">Back to Home</a>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    function toggleDetails(index) {
+        var detailsRow = document.getElementById('details-' + index);
+        if (detailsRow.style.display === 'none' || detailsRow.style.display === '') {
+            detailsRow.style.display = 'table-row';
+        } else {
+            detailsRow.style.display = 'none';
+        }
+    }
+
+    // Show an alert when "Save Resume" is clicked
+    document.addEventListener("DOMContentLoaded", function () {
+        document.querySelectorAll(".save-form").forEach(form => {
+            form.addEventListener("submit", function (event) {
+                event.preventDefault(); // Prevent the default form submission
+
+                var formData = new FormData(this);
+                fetch(this.action, {
+                    method: "POST",
+                    body: formData
+                })
+                .then(response => response.text())
+                .then(data => {
+                    alert("Resume saved successfully!"); // Show alert message
+                    location.reload(); // Reload the page to update the results
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                    alert("An error occurred. Please try again.");
+                });
+            });
+        });
+    });
+</script>
+
+</body>
+</html>

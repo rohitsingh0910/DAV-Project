@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(120deg, #3498db, #8e44ad);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #fff;
+        }
+
+        .login-container {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 15px;
+            padding: 40px;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        h2 {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #FFFFF;
+        }
+
+        label {
+            font-size: 1rem;
+            display: block;
+            margin-bottom: 5px;
+            text-align: left;
+            color: #f1f1f1;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            background: rgba(255, 255, 255, 0.3);
+            color: white;
+            outline: none;
+        }
+
+        input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        input:focus {
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 12px;
+            background: #007BFF;
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+            font-weight: 600;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .register-link {
+            margin-top: 15px;
+            font-size: 1rem;
+        }
+
+        .register-link a {
+            color: #FFD700;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .register-link a:hover {
+            text-decoration: underline;
+        }
+
+
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h2>Login</h2>
+        <form action="/login" method="POST">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" placeholder="Enter your username" required>
+
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" placeholder="Enter your password" required>
+
+            <button type="submit" class="btn">Login</button>
+
+            <div class="register-link">
+                <p>Don't have an account? <a href={{url_for("signup")}}>Register here</a></p>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
